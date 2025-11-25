@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\RoomController;
+use App\Models\Booking;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +19,32 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::resource('room', RoomController::class);
+Route::resource('member', MemberController::class);
+Route::resource('booking', BookingController::class);
+
+Route::get('/test', function () {
+    // Data dari input form anda :
+
+    $data = [
+        'start_date' => '2025-12-07',
+        'end_date' => '2025-12-10',
+        'member_id' => 1,
+        'room_id' => 2,
+    ];
+
+    // 1. Cek pencarian booking yang bertabrakan
+
+    $tabrakan = Booking::where('room_id', $data['room_id'])
+        ->where('start_date', '<=', $data['end_date'])
+        ->where('end_date', '>=', $data['start_date'])
+        ->count();
+
+    return $tabrakan;
+});
+
+Route::get('/admin', function () {
+    return view('Admin.Layouts.main');
 });
