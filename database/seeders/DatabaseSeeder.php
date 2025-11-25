@@ -18,5 +18,19 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        \App\Models\Member::create(['name' => 'Alice']);
+        \App\Models\Member::create(['name' => 'Bob']);
+
+        \App\Models\Room::create(['nama' => 'Room A']);
+        \App\Models\Room::create(['nama' => 'Room B']);
+
+        \App\Models\Booking::create([
+            'start_date' => '2025-10-01',
+            'end_date' => '2025-11-01',
+            'member_id' => 1,
+            'room_id' => 1,
+        ]);
+
     }
 }
