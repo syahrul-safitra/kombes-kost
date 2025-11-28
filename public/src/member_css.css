@@ -947,3 +947,12 @@
     font-size: 0.75rem !important;
 }
 /* End booking style */
+
+
+/* Booking */
+/* Menambahkan kursor pointer pada gambar carousel yang bisa diklik */
+   .gambar-kecil {
+      height: 100%; /* Memastikan elemen div menyesuaikan tinggi */
+      object-fit: cover; /* Memastikan gambar menutupi area tanpa terdistorsi */
+    }   
+/* End Booking */

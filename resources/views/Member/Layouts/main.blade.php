@@ -50,7 +50,7 @@
                             <a class="nav-link" href="#location">Lokasi</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#contact" class="btn btn-pink ms-3">Hubungi Kami</a>
+                            <a href="{{ url("login") }}" class="btn btn-pink ms-3">Login</a>
                         </li>
                     </ul>
                 </div>
@@ -133,6 +133,8 @@
 
         <!-- AOS Animation JS -->
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+        <script src="{{ asset("src/jquery-3.4.1.min.js") }}"></script>
 
         <!-- Custom JS -->
         <script>
@@ -286,6 +288,34 @@
             window.addEventListener('load', optimizeForMobile);
             window.addEventListener('resize', optimizeForMobile);
         </script>
+
+        {{-- <script>
+            // Pastikan jQuery (dependency Bootstrap) dan Bootstrap JS sudah dimuat sebelum kode ini.
+            $(document).ready(function() {
+
+                // Menambahkan class 'active-thumb' pada thumbnail pertama saat halaman dimuat
+                $('.thumbnail-image:first').addClass('active-thumb');
+
+                // Menangani event klik pada setiap thumbnail
+                $('.thumbnail-image').on('click', function() {
+
+                    // 1. Ambil URL gambar besar dari atribut 'data-large-src'
+                    var newSrc = $(this).attr('data-large-src');
+
+                    // 2. Ganti atribut 'src' pada gambar utama
+                    $('#main-image').attr('src', newSrc);
+                    $('#main-image').attr('alt', $(this).attr('alt').replace('Thumbnail', 'Gambar Utama'));
+
+                    // 3. Menghapus class 'active-thumb' dari semua thumbnail
+                    $('.thumbnail-image').removeClass('active-thumb');
+
+                    // 4. Menambahkan class 'active-thumb' ke thumbnail yang baru saja diklik
+                    $(this).addClass('active-thumb');
+
+                });
+
+            });
+        </script> --}}
     </body>
 
 </html>

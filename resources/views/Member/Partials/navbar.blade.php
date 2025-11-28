@@ -29,7 +29,7 @@
                     <a class="nav-link" href="#location">Lokasi</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#contact" class="btn btn-pink ms-3">Hubungi Kami</a>
+                    <a href="{{ url("login") }}" class="btn btn-pink ms-3">Login</a>
                 </li>
             </ul>
         </div>
