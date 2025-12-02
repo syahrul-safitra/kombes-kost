@@ -7,7 +7,6 @@ use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-
 class BookingController extends Controller
 {
     /**
@@ -16,7 +15,7 @@ class BookingController extends Controller
     public function index()
     {
         return view('Admin.Booking.index', [
-            'bookings' => Booking::with('member', 'room')->latest()->get()
+            'bookings' => Booking::with('member', 'room')->latest()->get(),
         ]);
     }
 
@@ -42,7 +41,7 @@ class BookingController extends Controller
     public function show(Booking $booking)
     {
         return view('Admin.Booking.detail', [
-            'booking' => $booking->load('member', 'room')
+            'booking' => $booking->load('member', 'room'),
         ]);
     }
 
@@ -143,8 +142,8 @@ class BookingController extends Controller
         $locationFile = 'File';
         $file->move($locationFile, $renameFile);
 
-        if($booking->bukti_pembayaran) {
-            File::delete('File/' . $booking->bukti_pembayaran);
+        if ($booking->bukti_pembayaran) {
+            File::delete('File/'.$booking->bukti_pembayaran);
         }
 
         $booking->bukti_pembayaran = $renameFile;
@@ -152,5 +151,30 @@ class BookingController extends Controller
         $booking->save();
 
         return back()->with('success', 'Bukti pembayaran berhasil diunggah. Silakan tunggu konfirmasi dari admin.');
+    }
+
+    public function setStatusPembayaran(Request $request, Booking $booking)
+    {
+
+        $validated = $request->validate([
+            'status_pembayaran' => 'required|in:pending,success',
+        ]);
+
+        $booking->status_pembayaran = $validated['status_pembayaran'];
+        $booking->save();
+
+        return back()->with('success', 'Status pembayaran berhasil diperbarui.');
+    }
+
+    public function setStatusPemesanan(Request $request, Booking $booking)
+    {
+        $validated = $request->validate([
+            'status_booking' => 'required|in:pending,confirmed,check_in,check_out',
+        ]);
+
+        $booking->status_booking = $validated['status_booking'];
+        $booking->save();
+
+        return back()->with('success', 'Status booking berhasil diperbarui.');
     }
 }
