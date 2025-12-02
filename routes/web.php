@@ -95,7 +95,17 @@ Route::get('/profile', [MemberController::class, 'profile']);
 
 Route::post('/upload-pembayaran/{booking}', [BookingController::class, 'uploadPembayaran']);
 
-Route::controller(BookingController::class)->group(function() {
-    Route::get("/booking-admin", 'index');
+Route::controller(BookingController::class)->group(function () {
+    Route::get('/booking-admin', 'index');
     Route::get('/booking-admin/{booking}', 'show');
+    Route::post('/set-status-pembayaran/{booking}', 'setStatusPembayaran');
+    Route::post('/set-status-pemesanan/{booking}', 'setStatusPemesanan');
+    Route::post('/laporan', 'laporan');
+});
+
+Route::controller(MemberController::class)->group(function () {
+    Route::get('/member', 'index');
+    Route::get('/member/{member}/edit', 'edit');
+    Route::put('/member/{member}', 'update');
+    Route::delete('/member/{member}', 'destroy');
 });

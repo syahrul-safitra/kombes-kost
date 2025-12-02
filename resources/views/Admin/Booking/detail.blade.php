@@ -1,45 +1,33 @@
-@extends('Admin.Layouts.main')
+{{-- Status Pembayaran --}}
+{{-- Status Booking --}}
 
-@section('container')
+@extends("Admin.Layouts.main")
+
+@section("container")
     <div class="col-12">
         <h4 class="mb-2"><i class="bi bi-box-arrow-up"></i> Detail Pemesanan</h4>
         {{-- Session Message --}}
-        @if (session()->has('success'))
+        @if (session()->has("success"))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
+                {{ session("success") }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
-        <div class="bg-light rounded h-100 p-4">
+        <div class="bg-light h-100 rounded p-4">
             <div class="d-flex gap-2">
 
-                <a href="{{ url('dashboard/suratmasuk') }}" class="btn btn-info  mb-3"><i
+                <a href="{{ url("booking-admin") }}" class="btn btn-info mb-3"><i
                         class="bi bi-arrow-left-circle me-2"></i>Kembali</a>
-
-                <a href="{{ url('dashboard/disposisis1/create/' . $booking->id) }} " class="btn btn-primary mb-3"><i
-                        class="bi bi-plus-circle me-2"></i>Buat</a>
-
-                <a href="{{ url('dashboard/disposisi1_diteruskan/create_diteruskan/' . $booking->id) }} "
-                    class="btn btn-success mb-3"><i class="fas fa-paper-plane me-2"></i>Teruskan</a>
-                <a href="{{ url('dashboard/disposisi1/' . $booking->id . '/cetak') }} " class="btn btn-success mb-3"><i
-                        class="bi bi-printer me-2"></i>Cetak</a>
-
-
-                <form action="{{ url('dashboard/disposisi1/' . $booking->id . '/verifikasi') }}" method="POST">
-                    @csrf
-                    <div class="btn btn btn-success mb-3 " id="btn-verifikasi">
-                        <i class="fas fa-key me-2"></i>Verifikasi
-                    </div>
-                </form>
 
                 <!-- Button trigger modal -->
 
-                <div class="btn btn-info mb-3 " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fas fa-archive me-2"></i>Arsipkan
+                {{-- Button Status Pembayaran --}}
+                <div class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bi bi-wallet-fill me-2"></i>Status Pembayaran
                 </div>
 
-                <form action="{{ url('dashboard/disposisi1/' . $booking->id . '/arsipkan') }}" method="POST">
+                <form action="{{ url("set-status-pembayaran/" . $booking->id) }}" method="POST">
                     @csrf
 
                     <!-- Modal -->
@@ -47,68 +35,208 @@
                         aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Pesan Arsipkan</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <input type="text" class="form-control" name="pesan_arsipkan"
-                                        placeholder="pesan arsipkan" required>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                <div class="card p-4">
+                                    <h2 class="h4 mb-4">Ubah Status Pembayaran </h2>
+
+                                    <div class="mb-3">
+                                        <label class="form-label d-block">Pilih Status Pembayaran:</label>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="status_pembayaran"
+                                                id="statusPending" value="pending" @checked($booking->status_pembayaran == "pending") required>
+                                            <label class="form-check-label" for="statusPending">
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="status_pembayaran"
+                                                id="statusSuccess" value="success" @checked($booking->status_pembayaran == "success") required>
+                                            <label class="form-check-label" for="statusSuccess">
+                                                <span class="badge bg-success">Success</span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-3 gap-2">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Kembali</button>
+                                        <button type="submit" class="btn btn-primary">Simpan Status</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
 
-                <form action="{{ url('dashboard/disposisi1/' . $booking->id) }}" method="POST">
+                <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
+                    <i class="bi bi-journal-text"></i> Status Booking
+                </button>
+
+                <form action="{{ url("set-status-pemesanan/" . $booking->id) }}" method="POST">
                     @csrf
-                    @method('DELETE')
-                    <div class="btn btn btn-danger mb-3 " id="btn-delete-disposisi">
-                        <i class="bi bi-trash me-2"></i>Hapus
+
+                    <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="modalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalLabel">Ubah Status Booking </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <label class="form-label d-block mb-3">Pilih Status Booking:</label>
+
+                                    <div class="d-flex flex-wrap gap-3">
+
+                                        {{-- Opsi Status (Radio Buttons) --}}
+
+                                        {{-- 1. PENDING --}}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="status_booking"
+                                                id="statusPending" value="pending" @checked($booking->status_booking == "pending") required>
+                                            <label class="form-check-label" for="statusPending">
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                            </label>
+                                        </div>
+
+                                        {{-- 2. CONFIRMED --}}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="status_booking"
+                                                id="statusConfirmed" value="confirmed" @checked($booking->status_booking == "confirmed")
+                                                required>
+                                            <label class="form-check-label" for="statusConfirmed">
+                                                <span class="badge bg-success">Confirmed</span>
+                                            </label>
+                                        </div>
+
+                                        {{-- 3. CHECK_IN --}}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="status_booking"
+                                                id="statusCheckIn" value="check_in" @checked($booking->status_booking == "check_in") required>
+                                            <label class="form-check-label" for="statusCheckIn">
+                                                <span class="badge bg-primary">Check In</span>
+                                            </label>
+                                        </div>
+
+                                        {{-- 4. CHECK_OUT --}}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="status_booking"
+                                                id="statusCheckOut" value="check_out" @checked($booking->status_booking == "check_out")
+                                                required>
+                                            <label class="form-check-label" for="statusCheckOut">
+                                                <span class="badge bg-secondary">Check Out</span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Simpan Status</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
+
             </div>
 
-            <table class="table table-striped table-hover">
+            <table class="table-striped table-hover table">
 
                 <tbody>
                     <tr>
-                        <th scope="row" style="width: 30%">Nomor Surat</th>
+                        <th scope="row" style="width: 30%">Id Booking</th>
                         <td style="width: 5%">:</td>
-                        <td style="width: 65%">{{ 'Testing' }}</td>
+                        <td style="width: 65%">{{ $booking->id }}</td>
                     </tr>
                     <tr>
-                        <th scope="row" style="width: 30%">Asal Surat</th>
+                        <th scope="row" style="width: 30%">Nama Member</th>
                         <td style="width: 5%">:</td>
-                        <td style="width: 65%">{{ 'Testing' }}</td>
+                        <td style="width: 65%">{{ $booking->member->nama_lengkap }}</td>
                     </tr>
                     <tr>
-                        <th scope="row" style="width: 30%">Tanggal Surat</th>
+                        <th scope="row" style="width: 30%">Nama Ruangan</th>
                         <td style="width: 5%">:</td>
-                        <td style="width: 65%">{{ 'Testing' }}</td>
+                        <td style="width: 65%">{{ $booking->room->nama }}</td>
                     </tr>
                     <tr>
-                        <th scope="row" style="width: 30%">Indek</th>
+                        <th scope="row" style="width: 30%">Tipe</th>
                         <td style="width: 5%">:</td>
-                        <td style="width: 65%">{{ 'Testing' }}</td>
+                        <td style="width: 65%">{{ $booking->room->tipe }}</td>
                     </tr>
                     <tr>
-                        <th scope="row" style="width: 30%">Kode Klasifikasi</th>
+                        <th scope="row" style="width: 30%">Tanggal Mulai</th>
                         <td style="width: 5%">:</td>
-                        <td style="width: 65%">{{ 'Testing' }}</td>
+                        <td style="width: 65%">{{ date("d F Y", strtotime($booking->start_date)) }}</td>
                     </tr>
                     <tr>
-                        <th scope="row" style="width: 30%">Tanggal Penyelesaian</th>
+                        <th scope="row" style="width: 30%">Tanggal Selesai</th>
                         <td style="width: 5%">:</td>
-                        <td style="width: 65%">{{ 'Testing' }}</td>
+                        <td style="width: 65%">{{ date("d F Y", strtotime($booking->end_date)) }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width: 30%">Durasi Sewa</th>
+                        <td style="width: 5%">:</td>
+                        <td style="width: 65%">
+                            {{ (strtotime($booking->end_date) - strtotime($booking->start_date)) / (60 * 60 * 24) . " Hari" }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width: 30%">Total Harga</th>
+                        <td style="width: 5%">:</td>
+                        <td style="width: 65%">
+                            {{ "Rp.     " . number_format($booking->total_harga, 0, ",", ".") }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width: 30%">Status Pembayaran</th>
+                        <td style="width: 5%">:</td>
+                        <td style="width: 65%">
+                            <span
+                                class="badge rounded-pill {{ $booking->status_pembayaran == "pending" ? "bg-warning" : "bg-success" }} text-white">{{ $booking->status_pembayaran }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width: 30%">Status Booking</th>
+                        <td style="width: 5%">:</td>
+                        <td style="width: 65%">
+
+                            {{-- <span
+                                class="badge rounded-pill {{ $booking->status_booking == "pending" ? "bg-warning" : "bg-success" }} text-dark">{{ $booking->status_booking }}</span> --}}
+
+                            <span
+                                class="badge rounded-pill {{ $booking->status_booking == "pending"
+                                    ? "bg-warning text-dark"
+                                    : ($booking->status_booking == "confirmed"
+                                        ? "bg-success"
+                                        : ($booking->status_booking == "check_in"
+                                            ? "bg-primary"
+                                            : ($booking->status_booking == "check_out"
+                                                ? "bg-secondary"
+                                                : "bg-info"))) }}">
+                                {{ $booking->status_booking }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width: 30%">Resi Pembayaran</th>
+                        <td style="width: 5%">:</td>
+
+                        @if ($booking->bukti_pembayaran)
+                            <td style="width: 65%"><a href="{{ asset("File/" . $booking->bukti_pembayaran) }}"
+                                    class="btn btn-info btn-sm"><i class="bi bi-cash"></i></a></td>
+                        @else
+                            <td style="width: 65%"><span
+                                    class="badge rounded-pill bg-danger text-white">{{ "Belum melakukan pembayaran" }}</span>
+                            </td>
+                        @endif
 
                     </tr>
-
 
                 </tbody>
             </table>
