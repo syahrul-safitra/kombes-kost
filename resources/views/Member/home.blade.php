@@ -244,7 +244,7 @@
                                     <span>KM Dalam</span>
                                 </div>
                             </div>
-                            <a href="#contact" class="btn btn-pink w-100">Pesan Sekarang</a>
+                            <a href="{{ url("view-b") }}" class="btn btn-pink w-100">Selengkapnya</a>
                         </div>
                     </div>
                 </div>
@@ -279,7 +279,7 @@
                                     <span>Ruang Tamu</span>
                                 </div>
                             </div>
-                            <a href="#contact" class="btn btn-pink w-100">Pesan Sekarang</a>
+                            <a href="{{ url("view-c") }}" class="btn btn-pink w-100">Selengkapnya</a>
                         </div>
                     </div>
                 </div>

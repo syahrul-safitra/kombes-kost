@@ -135,12 +135,26 @@
                                 </div>
                                 <div class="col-md-4 text-end">
 
-                                    @if ($booking->status_booking == "pending")
+                                    {{-- @if ($booking->status_booking == "pending")
                                         <span
                                             class="booking-status bg-warning text-white">{{ $booking->status_booking }}</span>
                                     @else
                                         <span
                                             class="booking-status bg-success text-white">{{ $booking->status_booking }}</span>
+                                    @endif --}}
+
+                                    @if ($booking->status_booking == "pending")
+                                        <span
+                                            class="booking-status bg-warning text-white">{{ $booking->status_booking }}</span>
+                                    @elseif($booking->status_booking == "confirmed")
+                                        <span
+                                            class="booking-status bg-success text-white">{{ $booking->status_booking }}</span>
+                                    @elseif ($booking->status_booking == "check_in")
+                                        <span
+                                            class="booking-status bg-primary text-white">{{ $booking->status_booking }}</span>
+                                    @else
+                                        <span
+                                            class="booking-status bg-secondary text-white">{{ $booking->status_booking }}</span>
                                     @endif
                                     <div class="d-flex justify-content-end mt-3 gap-2">
                                         <a href="{{ url("detail/" . $booking->id) }}"

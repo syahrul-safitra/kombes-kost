@@ -758,7 +758,7 @@
                 <div class="room-images-grid">
                     <div class="room-image-item" data-room-type="standard" data-price="900000"
                         data-facilities='["Bed 120x200", "Meja Belajar", "KM Luar", "Lemari Pakaian", "Jendela Besar"]'>
-                        <img src="https://picsum.photos/seed/standard/400/250" alt="Standard Room">
+                        <img src="{{ asset("File/" . $room->gambar_sampul) }}" alt="Standard Room">
                         {{-- <div class="room-image-overlay">
                             <div class="room-image-info">
                                 <h3>Kamar Standard</h3>
@@ -772,7 +772,7 @@
 
                     <div class="room-image-item" data-room-type="deluxe" data-price="1300000"
                         data-facilities='["Bed 160x200", "Meja Belajar", "AC", "KM Dalam", "Lemari Pakaian", "TV"]'>
-                        <img src="https://picsum.photos/seed/deluxe/400/250" alt="Deluxe Room">
+                        <img src="{{ asset("File/" . $room->gambar_2) }}" alt="Deluxe Room">
                         {{-- <div class="room-image-overlay">
                             <div class="room-image-info">
                                 <h3>Kamar Deluxe</h3>
@@ -786,7 +786,7 @@
 
                     <div class="room-image-item" data-room-type="suite" data-price="1800000"
                         data-facilities='["Bed 180x200", "Meja Belajar", "AC", "KM Dalam", "Lemari Pakaian", "TV", "Ruang Tamu", "Mini Bar"]'>
-                        <img src="https://picsum.photos/seed/suite/400/250" alt="Suite Room">
+                        <img src="{{ asset("File/" . $room->gambar_3) }}" alt="Suite Room">
                         {{-- <div class="room-image-overlay">
                             <div class="room-image-info">
                                 <h3>Kamar Suite</h3>

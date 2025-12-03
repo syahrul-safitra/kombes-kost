@@ -285,7 +285,11 @@ class BookingController extends Controller
             $row_count++;
 
             $harga_rp = 'Rp '.number_format($booking['total_harga'], 0, ',', '.');
-            $total_semua_harga += $booking['total_harga'];
+
+            if ($booking['status_pembayaran'] != 'pending') {
+                $total_semua_harga += $booking['total_harga'];
+
+            }
 
             $pdf->SetX($margin_kiri); // ATUR POSISI X KE TENGAH
 
@@ -307,7 +311,15 @@ class BookingController extends Controller
             // 4. Kolom lainnya (Perhatikan perubahan indeks)
             $pdf->Cell($lebar_kolom[4], 6, Carbon::parse($booking['start_date'])->format('d-m-Y'), 1, 0, 'C', $fill);
             $pdf->Cell($lebar_kolom[5], 6, Carbon::parse($booking['end_date'])->format('d-m-Y'), 1, 0, 'C', $fill);
+
+            if ($booking['status_pembayaran'] == 'pending') {
+                $pdf->SetTextColor(255, 0, 0); // Merah untuk pending
+            }
+
             $pdf->Cell($lebar_kolom[6], 6, $booking['status_pembayaran'], 1, 0, 'C', $fill);
+
+            $pdf->SetTextColor(0, 0, 0); // Hitam untuk lainnya
+
             $pdf->Cell($lebar_kolom[7], 6, $booking['status_booking'], 1, 0, 'C', $fill);
             $pdf->Cell($lebar_kolom[8], 6, $harga_rp, 1, 0, 'R', $fill);
 
