@@ -86,6 +86,14 @@ class BookingController extends Controller
 
         $data = $request->all();
 
+        if ($request->paket_sewa == 'Pilih') {
+            return back()->with('error', 'Paket sewa harus dipilih terlebih dahulu.')->withInput();
+        }
+
+        if (! $request->start_date) {
+            return back()->with('error', 'Tanggal mulai sewa harus diisi terlebih dahulu.')->withInput();
+        }
+
         $request->validate([
             'start_date' => 'required',
             'paket_sewa' => 'required',

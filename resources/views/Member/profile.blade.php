@@ -19,9 +19,9 @@
                         </div>
                     </div>
                     <div class="col-md-3 text-center">
-                        <button class="btn btn-pink mb-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        {{-- <button class="btn btn-pink mb-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">
                             <i class="bi bi-pencil-square"></i> Edit Profil
-                        </button>
+                        </button> --}}
                         <br>
                         {{-- <button class="btn btn-outline-pink">
                             <i class="bi bi-key"></i> Ganti Password
@@ -159,7 +159,7 @@
                                     <div class="d-flex justify-content-end mt-3 gap-2">
                                         <a href="{{ url("detail/" . $booking->id) }}"
                                             class="btn btn-pink btn-sm">Detail</a>
-                                        <button class="btn btn-outline-pink btn-sm">Ulasan</button>
+                                        {{-- <button class="btn btn-outline-pink btn-sm">Ulasan</button> --}}
                                     </div>
                                 </div>
                             </div>

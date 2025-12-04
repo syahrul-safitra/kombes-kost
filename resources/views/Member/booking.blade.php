@@ -871,11 +871,11 @@
                                     <input type="date" class="form-control" min="{{ date("Y-m-d") }}"
                                         name="start_date" value="{{ @old("start_date") }}" required>
 
-                                    @error("start_date")
+                                    @session("error")
                                         <div class="text-danger">
-                                            {{ $message }}
+                                            {{ session("error") }}
                                         </div>
-                                    @enderror
+                                    @endsession
                                 </div>
                             </div>
                         </div>
@@ -886,7 +886,7 @@
                             </label>
                             <select class="form-select" aria-label="Default select example" name="paket_sewa"
                                 id="paketSewaSelect" required>
-                                <option value="" selected>Pilih</option>
+                                <option selected>Pilih</option>
                                 <option value="3">
                                     {{ "3 Bulan" . "(Rp." . number_format($room->harga_per_3_bulan * 1, 0, ",", ".") . ")" }}
                                 </option>
@@ -897,6 +897,13 @@
                                     {{ "12 Bulan" . "(Rp." . number_format($room->harga_per_3_bulan * 4, 0, ",", ".") . ")" }}
                                 </option>
                             </select>
+
+                            @session("error")
+                                <div class="text-danger">
+                                    {{ session("error") }}
+                                </div>
+                            @endsession
+
                         </div>
 
                         {{-- HANYA PERLU SATU HIDDEN INPUT: Harga per 3 Bulan --}}
